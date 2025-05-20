@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>GenreToScale</title>
+    <title>Genre To Scale</title>
+    <script type="text/javascript" src="https://unpkg.com/paper@0.12.15/dist/paper-full.min.js"></script>
+    <script type="text/paperscript" src="script.js" canvas="myCanvas"></script>
 </head>
 <body>
-   <script type="module" src="/script.js"></script>
-   <!-- Draggable DIV -->
-<div id="mydiv">
-  <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
-  <div id="mydivheader">Click here to move</div>
-  <p>Move</p>
-  <p>this</p>
-  <p>DIV</p>
-</div>
+    <canvas id="myCanvas" resize></canvas>
 </body>
 </html>
