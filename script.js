@@ -1,36 +1,23 @@
-// Handling resizing of the canvas
+var FIDELITY = 5;
 var canvas = document.getElementById("myCanvas");
 var xCenter = window.innerWidth / 2;
-var yCenter = parseInt((window.innerHeight / 2));
+var yCenter = window.innerHeight / 2;
 
-// Initial path
-var myPath = new Path();
-myPath.strokeColor = 'black';
-myPath.add(new Point(xCenter, yCenter));
-myPath.add(new Point(100,50));
-
-// function resizeCanvas() {
-//     // TODO: update positions when resizing
-//     xCenter = window.innerWidth / 2;
-//     yCenter = window.innerHeight / 2;
-// }
-
-// resizeCanvas();
-// window.addEventListener("resize", resizeCanvas);
-
-var FIDELITY = 5;
-
-// Create circle of points around central point
-var movingPoint = new Point(xCenter - 100, yCenter);
-var movingPath = new Path();
-movingPath.strokeColor = 'black';
-movingPath.add(new Point(xCenter, yCenter));
-movingPath.add(movingPoint);
-
-function switchPoint() {
-    movingPath.segments[1].point.set(xCenter + 100, yCenter);
-    console.log("(" + (movingPoint.x).toString(), (movingPoint.y).toString() + ")")
+// Construct central point
+var centerPoint = new Point(xCenter, yCenter);
+// Draw lines from center to surrounding points
+function surround(cent, fid) {
+    var parray = [];
+    var paths = [];
+    for (var i = 0; i < fid; i++) {
+        parray.push((new Point(cent.x + 100, cent.y)).rotate((360/fid)*i, cent))
+        paths.push(new Path(cent, parray[i]))
+    }
+    return new Group(paths);
 }
 
-window.addEventListener('click', switchPoint);
-// Draw paths from center to each center point
+circ1 = surround(centerPoint, FIDELITY);
+circ1.style = {
+    strokeColor: 'black',
+    strokeWidth: 2
+};
