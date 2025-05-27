@@ -5,20 +5,21 @@ conn = psycopg2.connect(database="discogs",
                       host="localhost",
                       port="5432")
 cur = conn.cursor()
-cur.execute("SELECT id FROM release WHERE country='Sweden' LIMIT 3;")
+cur.execute("SELECT id FROM release WHERE country='Sweden' LIMIT 10000;")
 ids = cur.fetchall()
-genre_list = []
-style_list = []
+# Genre list
+genre_list = ['Blues', 'Brass & Military', "Children's", 'Classical', 'Electronic',
+              'Folk, World, & Country', 'Funk / Soul', 'Hip Hop', 'Jazz', 'Latin',
+              'Non-Music', 'Pop', 'Reggae', 'Rock', 'Stage & Screen']
+genre_counts = [0] * len(genre_list)
 for i in ids:
     cur.execute(f'SELECT genre FROM release_genre WHERE release_id={i[0]};')
     for j in cur.fetchall():
-        genre_list.append(j[0])
-    cur.execute(f'SELECT style FROM raw_styles WHERE release_id={i[0]}')
-    for j in cur.fetchall():
-        style_list.append(j[0])
+        for k in range(len(genre_list)):
+            # print(f"j[0]: {j[0]}, genre_list[k]: {genre_list[k]}")
+            if j[0] == genre_list[k]:
+                genre_counts[k] += 1
 cur.close()
 conn.close()
-for i in genre_list:
-    print(i)
-for j in style_list:
-    print(j)
+print(genre_counts)
+
