@@ -63,11 +63,7 @@
             .attr("id", "countries")
             .selectAll("path");
 
-        var proj = d3.geo.albers()
-            .origin([-100, 40])             // center over North America
-            .parallels([29.5, 100])        // good standard parallels for US/Canada
-            .scale(700)                     // adjust zoom as needed
-            .translate([300, 650]);         // center in your SVG
+        var proj = d3.geo.mercator()
 
         var topology,
             geometries,
@@ -91,8 +87,8 @@
             })
         });
 
-         // this loads test the topojson file and creates the map.
-        d3.json("data/north-america.json", function (data) {
+        // this loads test the topojson file and creates the map.
+        d3.json("public/globe1.json", function (data) {
             topology = data;
             geometries = topology.objects.layer1.geometries;
 
@@ -125,7 +121,10 @@
                 // this sets the value to use for scaling, per munic. Here I used the total number 
                 // of voters per munic. the scaling is relative to the max value.
                 carto.value(function (d) {
-                    console.log(d.properties.name);
+                    if (!genre_data.has(d.properties.name)) {
+                        console.log(`No data for ${d.properties.name}`);
+                        return 1;
+                    }
                     return +genre_data.get(d.properties.name)[1];
                 });
 
