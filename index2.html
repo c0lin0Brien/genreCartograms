@@ -81,9 +81,9 @@
          // the data came from some rolling up of info I got from iec.org.za site. 
          // It lists the winning party, number or registered voters and votes 
          // cast per local municipality.
-        d3.csv("data/dummyData.csv", function (data) {
+        d3.csv("public/matched_master.csv", function (data) {
             data.forEach(function (d) {
-                genre_data.set(d.Country, [d.Blues, d.Electronic, d.Jazz]);
+                genre_data.set(d.COUNTRY, [d.BLUES, d.ELECTRONIC, d.JAZZ]);
             })
         });
 
@@ -121,11 +121,10 @@
                 // this sets the value to use for scaling, per munic. Here I used the total number 
                 // of voters per munic. the scaling is relative to the max value.
                 carto.value(function (d) {
-                    if (!genre_data.has(d.properties.name)) {
-                        console.log(`No data for ${d.properties.name}`);
-                        return 1;
-                    }
-                    return +genre_data.get(d.properties.name)[1];
+                    var countryName = d.properties.name;
+                    var val = genre_data.get(d.properties.name)[0];
+                    console.log(`${countryName}: ${Math.log(+val + 2)} (${typeof (+val + 1)})`);
+                    return Math.log(parseInt(val) + 2);
                 });
 
 
