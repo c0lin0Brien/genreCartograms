@@ -1,11 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenreToScale</title>
+    <title>Genre To Scale</title>
+    <meta charset="utf-8">
+    <script src="lib/d3.v2.min.js"></script>
+    <script src="lib/topojson.js"></script>
+    <script src="lib/cartogram.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        body {
+            font-family:'Open Sans', sans-serif;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 1.4em;
+            padding-top: 20px;
+            margin: 0 auto;
+            width: 600px;
+        }
+        #map-container {
+            height: 500px;
+            
+            position: relative;
+            margin: 10px 0;
+        }
+
+        #map {
+            overflow: visible;
+        }
+        #click_to_run {
+            color:#888;
+            width: 600px;
+            font-size: 2em;
+            text-align: center;
+            cursor: pointer;
+            padding-top: 30px;
+        }
+        path.country {
+            stroke: #888;
+            stroke-width: .5;
+            fill: white;
+        }
+        path.country:hover {
+            stroke: #000;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div id="click_to_run" onclick="do_update()">
+        ...
+    </div>
+    <div id="genre_buttons">
+        <button onclick="do_update(0)">Blues</button>
+        <button onclick="do_update(1)">Brass & Military</button>
+        <button onclick="do_update(2)">Children's</button>
+        <button onclick="do_update(3)">Classical</button>
+        <button onclick="do_update(4)">Electronic</button>
+        <button onclick="do_update(5)">Folk, World, & Country</button>
+        <button onclick="do_update(6)">Funk / Soul</button>
+        <button onclick="do_update(7)">Hip Hop</button>
+        <button onclick="do_update(8)">Jazz</button>
+        <button onclick="do_update(9)">Latin</button>
+        <button onclick="do_update(10)">Non-Music</button>
+        <button onclick="do_update(11)">Pop</button>
+        <button onclick="do_update(12)">Reggae</button>
+        <button onclick="do_update(13)">Rock</button>
+        <button onclick="do_update(14)">Stage & Screen</button>
+        <button onclick="reset_carto()">RESET</button>
+    </div>
+    <div id="map-container">
+        <svg id="map"></svg>
+    </div>
+
+    <script>
+
+        var map = d3.select("#map");
+
+        var countries = map.append("g")
+            .attr("id", "countries")
+            .selectAll("path");
+
+        var proj = d3.geo.mercator()
+
+        var topology,
+            geometries,
+            carto_features;
+
+        var genre_data = d3.map();
+
+        var carto = d3.cartogram()
+            .projection(proj)
+            .properties(function (d) {
+                // this add the "properties" properties to the geometries
+                return d.properties;
+            });
+
+        // Loading data from discogs
+        d3.csv("public/matched_master.csv", function (data) {
+            data.forEach(function (d) {
+                genre_data.set(d.COUNTRY, [d.BLUES, d.BRASS_MILITARY, d.CHILDRENS, d.CLASSICAL, d.ELECTRONIC,
+                 d.FOLK_WORLD_COUNTRY, d.FUNK_SOUL, d.HIP_HOP, d.JAZZ,
+                d.LATIN, d.NON_MUSIC, d.POP, d.REGGAE, d.ROCK, d.STAGE_SCREEN,
+                d.TOTAL]);
+            })
+        });
+
+        // this loads test the topojson file and creates the map.
+        d3.json("public/globe1.json", function (data) {
+            topology = data;
+            geometries = topology.objects.layer1.geometries;
+
+            //these 2 below create the map and are based on the topojson implementation
+            var features = carto.features(topology, geometries),
+                path = d3.geo.path()
+                    .projection(proj);
+
+            countries = countries.data(features)
+                .enter()
+                .append("path")
+                .attr("class", "country")
+                .attr("id", function (d) {
+                    return d.properties.name;
+                })
+                .attr("d", path);
+
+            countries.append("title")
+                .text(function (d) {
+                    return d.properties.name;
+                });
+
+            d3.select("#click_to_run").text("click here to run");
+        });
+
+        function do_update(g=11) {
+            d3.select("#click_to_run").text("thinking...");
+            setTimeout(function () {
+
+                // this sets the value to use for scaling, per country. Uses logarithmic scaling
+                carto.value(function (d) {
+                    var countryName = d.properties.name;
+                    var val = genre_data.get(d.properties.name)[g];
+                    // console.log(`${countryName}: ${Math.log(+val + 1)}`);
+                    return Math.sqrt(parseInt(val)) + 10;
+                });
+
+
+                if (carto_features == undefined)
+                    //this regenrates the topology features for the new map based on 
+                    carto_features = carto(topology, geometries).features;
+
+                //update the map data
+                countries.data(carto_features)
+                    .select("title")
+                    .text(function (d) {
+                        return d.properties.name;
+                    });
+
+                countries.transition()
+                    .duration(750)
+                    .each("end", function () {
+                        d3.select("#click_to_run").text("done")
+                    })
+                    .attr("d", carto.path);
+            }, 10);
+        }
+        // TODO: Finish Reset functionality (might just want to quick reload page)
+        function reset_carto(g=5) {
+            setTimeout(function () {
+
+                // this sets the value to use for scaling, per country. Uses logarithmic scaling
+                carto.value(function (d) {
+                    var countryName = d.properties.name;
+                    var val = genre_data.get(d.properties.name)[g];
+                    return Math.sqrt(parseInt(val) + 1);
+                });
+
+
+                if (carto_features == undefined)
+                    console.log("Mama");
+                    //this regenrates the topology features for the new map based on 
+                    carto_features = carto(topology, geometries).features;
+
+                //update the map data
+                countries.data(carto_features)
+                    .select("title")
+                    .text(function (d) {
+                        return d.properties.name;
+                    });
+
+                countries.transition()
+                    .duration(750)
+                    .each("end", function () {
+                        d3.select("#click_to_run").text("done")
+                    })
+                    .attr("d", carto.path);
+            }, 10);
+        }
+    </script>
 </body>
+
 </html>
