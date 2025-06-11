@@ -134,19 +134,16 @@
         });
 
         function do_update(g=11) {
-            d3.select("#click_to_run").text("thinking...");
             setTimeout(function () {
-
-                // this sets the value to use for scaling, per country. Uses logarithmic scaling
+                // this sets the value to use for scaling, per country. Uses square root scaling
                 carto.value(function (d) {
                     var countryName = d.properties.name;
                     var val = genre_data.get(d.properties.name)[g];
-                    // console.log(`${countryName}: ${Math.log(+val + 1)}`);
-                    return Math.sqrt(parseInt(val)) + 10;
+                    return Math.sqrt(parseInt(val) + 10);
                 });
 
-
-                if (carto_features == undefined)
+                if (carto_features == undefined) 
+                    console.log("Mama");
                     //this regenrates the topology features for the new map based on 
                     carto_features = carto(topology, geometries).features;
 
@@ -166,18 +163,16 @@
             }, 10);
         }
         // TODO: Finish Reset functionality (might just want to quick reload page)
-        function reset_carto(g=5) {
+        function reset_carto(g=8) {
             setTimeout(function () {
-
-                // this sets the value to use for scaling, per country. Uses logarithmic scaling
+                // this sets the value to use for scaling, per country. Uses square root scaling
                 carto.value(function (d) {
                     var countryName = d.properties.name;
                     var val = genre_data.get(d.properties.name)[g];
-                    return Math.sqrt(parseInt(val) + 1);
+                    return 1 / Math.sqrt(parseInt(val) + 10);
                 });
 
-
-                if (carto_features == undefined)
+                if (carto_features == undefined) 
                     console.log("Mama");
                     //this regenrates the topology features for the new map based on 
                     carto_features = carto(topology, geometries).features;
