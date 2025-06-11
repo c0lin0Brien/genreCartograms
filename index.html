@@ -162,34 +162,24 @@
             }, 10);
         }
         // TODO: Finish Reset functionality (might just want to quick reload page)
-        function reset_carto(g=8) {
-            setTimeout(function () {
-                // this sets the value to use for scaling, per country. Uses square root scaling
-                carto.value(function (d) {
-                    var countryName = d.properties.name;
-                    var val = genre_data.get(d.properties.name)[g];
-                    return 1 / Math.sqrt(parseInt(val) + 10);
+        function reset_carto() {
+            // Recreate the original features using the initial projection
+            var path = d3.geo.path().projection(proj);
+            var features = carto.features(topology, geometries);
+
+            // Update the map data with the original features
+            countries.data(features)
+                .select("title")
+                .text(function (d) {
+                    return d.properties.name;
                 });
 
-                if (carto_features == undefined) 
-                    console.log("Mama");
-                    //this regenrates the topology features for the new map based on 
-                    carto_features = carto(topology, geometries).features;
-
-                //update the map data
-                countries.data(carto_features)
-                    .select("title")
-                    .text(function (d) {
-                        return d.properties.name;
-                    });
-
-                countries.transition()
-                    .duration(750)
-                    .each("end", function () {
-                        d3.select("#title").text("Genre Cartograms")
-                    })
-                    .attr("d", carto.path);
-            }, 10);
+            countries.transition()
+                .duration(750)
+                .each("end", function () {
+                    d3.select("#title").text("Genre Cartograms");
+                })
+                .attr("d", path);
         }
     </script>
 </body>
