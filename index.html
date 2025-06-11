@@ -28,13 +28,14 @@
         #map {
             overflow: visible;
         }
-        #click_to_run {
+        #title {
             color:#888;
             width: 600px;
             font-size: 2em;
             text-align: center;
             cursor: pointer;
             padding-top: 30px;
+            padding-bottom: 30px;
         }
         path.country {
             stroke: #888;
@@ -48,8 +49,8 @@
 </head>
 
 <body>
-    <div id="click_to_run" onclick="do_update()">
-        ...
+    <div id="title" onclick="do_update()">
+        Genre Cartograms
     </div>
     <div id="genre_buttons">
         <button onclick="do_update(0)">Blues</button>
@@ -129,8 +130,6 @@
                 .text(function (d) {
                     return d.properties.name;
                 });
-
-            d3.select("#click_to_run").text("click here to run");
         });
 
         function do_update(g=11) {
@@ -157,7 +156,7 @@
                 countries.transition()
                     .duration(750)
                     .each("end", function () {
-                        d3.select("#click_to_run").text("done")
+                        d3.select("#title").text("Genre Cartograms")
                     })
                     .attr("d", carto.path);
             }, 10);
@@ -187,7 +186,7 @@
                 countries.transition()
                     .duration(750)
                     .each("end", function () {
-                        d3.select("#click_to_run").text("done")
+                        d3.select("#title").text("Genre Cartograms")
                     })
                     .attr("d", carto.path);
             }, 10);
