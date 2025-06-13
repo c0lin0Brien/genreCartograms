@@ -1,3 +1,4 @@
+// Set up projection
 var map = d3.select("#map");
 
 var countries = map.append("g")
@@ -17,7 +18,7 @@ var genre_data = d3.map();
 var carto = d3.cartogram()
     .projection(proj)
     .properties(function (d) {
-        // this add the "properties" properties to the geometries
+        // This adds the "properties" properties to the geometries
         return d.properties;
     });
 
@@ -64,6 +65,7 @@ d3.json("public/globe1.json", function (data) {
             }
         })
         .attr("d", path)
+        // Logic for selecting countries via click
         .on("click", function(d) {
             d3.select(`#${curr_selected}`).classed("selected", false);
             console.log(`Prev selected: ${curr_selected}`);
