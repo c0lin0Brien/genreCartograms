@@ -41,6 +41,7 @@ d3.json("public/globe1.json", function (data) {
         path = d3.geo.path()
             .projection(proj);
 
+    var curr_selected;
     countries = countries.data(features)
         .enter()
         .append("path")
@@ -50,8 +51,11 @@ d3.json("public/globe1.json", function (data) {
         })
         .attr("d", path)
         .on("click", function(d) {
+            d3.select(`#${curr_selected}`).classed("selected", false);
+            curr_selected = d.properties.name
             d3.select("#title").text(d.properties.name);
             d3.select(this).classed("selected", true);
+            curr_selected = d.properties.name;
             console.log(d.properties.name);
         });
 
@@ -84,9 +88,6 @@ function do_update(g=11) {
 
         countries.transition()
             .duration(750)
-            .each("end", function () {
-                d3.select("#title").text("Genre Cartograms")
-            })
             .attr("d", carto.path);
     }, 10);
 }
@@ -104,8 +105,5 @@ function reset_carto() {
 
     countries.transition()
         .duration(750)
-        .each("end", function () {
-            d3.select("#title").text("Genre Cartograms");
-        })
         .attr("d", path);
 }
