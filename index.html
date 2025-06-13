@@ -44,6 +44,7 @@
         }
         path.country:hover {
             stroke: #000;
+            fill: red;
         }
     </style>
 </head>
@@ -83,6 +84,8 @@
             .selectAll("path");
 
         var proj = d3.geo.mercator()
+            .scale(1000)
+            .translate([300, 450])
 
         var topology,
             geometries,
@@ -161,7 +164,6 @@
                     .attr("d", carto.path);
             }, 10);
         }
-        // TODO: Finish Reset functionality (might just want to quick reload page)
         function reset_carto() {
             // Recreate the original features using the initial projection
             var path = d3.geo.path().projection(proj);
