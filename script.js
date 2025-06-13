@@ -47,16 +47,31 @@ d3.json("public/globe1.json", function (data) {
         .append("path")
         .attr("class", "country")
         .attr("id", function (d) {
-            return d.properties.name;
+            // Fix to stop countries with spaces from tweaking
+            var country_name = d.properties.name;
+            if (country_name.includes(" ")) {
+                var new_id = "";
+                for (const char of country_name) {
+                    if (char == " ") {
+                        new_id += "_"
+                    } else {
+                        new_id += char;
+                    }
+                }
+                return  new_id;
+            } else {
+                return country_name;
+            }
         })
         .attr("d", path)
         .on("click", function(d) {
             d3.select(`#${curr_selected}`).classed("selected", false);
+            console.log(`Prev selected: ${curr_selected}`);
             curr_selected = d.properties.name
             d3.select("#title").text(d.properties.name);
             d3.select(this).classed("selected", true);
-            curr_selected = d.properties.name;
-            console.log(d.properties.name);
+            curr_selected = this.id;
+            console.log(`New selected: ${curr_selected}`);
         });
 
     countries.append("title")
