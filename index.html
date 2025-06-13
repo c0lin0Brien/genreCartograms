@@ -13,13 +13,20 @@
 
 <body>
     <div id="left_col" class="side_col">
-        Hello left world
+        <h1><b>Genre Cartograms</b></h1>
+        <h3>Colin O'Brien</h3>
     </div>
     <div id="mid_col">
         <div id="title">
             <!-- TODO: Get this text to display whatever country is currently hovered over -->
             Genre Cartograms
         </div>
+        <div id="map-container">
+            <svg id="map"></svg>
+        </div>
+        <script src="script.js"></script>
+    </div>
+    <div id="right_col" class="side_col">
         <div id="genre_buttons">
             <button onclick="do_update(0)">Blues</button>
             <button onclick="do_update(1)">Brass & Military</button>
@@ -38,13 +45,6 @@
             <button onclick="do_update(14)">Stage & Screen</button>
             <button onclick="reset_carto()">RESET</button>
         </div>
-        <div id="map-container">
-            <svg id="map"></svg>
-        </div>
-        <script src="script.js"></script>
-    </div>
-    <div id="right_col" class="side_col">
-        Hello right world
     </div>
 </body>
 
