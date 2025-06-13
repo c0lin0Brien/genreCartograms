@@ -48,7 +48,12 @@ d3.json("public/globe1.json", function (data) {
         .attr("id", function (d) {
             return d.properties.name;
         })
-        .attr("d", path);
+        .attr("d", path)
+        .on("click", function(d) {
+            d3.select("#title").text(d.properties.name);
+            d3.select(this).classed("selected", true);
+            console.log(d.properties.name);
+        });
 
     countries.append("title")
         .text(function (d) {
