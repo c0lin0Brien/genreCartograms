@@ -68,12 +68,16 @@ d3.json("public/globe1.json", function (data) {
         // Logic for selecting countries via click
         .on("click", function(d) {
             d3.select(`#${curr_selected}`).classed("selected", false);
-            console.log(`Prev selected: ${curr_selected}`);
-            curr_selected = d.properties.name
-            d3.select("#title").text(d.properties.name);
-            d3.select(this).classed("selected", true);
-            curr_selected = this.id;
-            console.log(`New selected: ${curr_selected}`);
+            if (curr_selected != d.properties.name) {
+                curr_selected = d.properties.name
+                d3.select("#title").text(d.properties.name);
+                d3.select(this).classed("selected", true);
+                curr_selected = this.id;
+            } else {
+                d3.select(this).classed("selected", false);
+                curr_selected = null;
+                d3.select("#title").text("...");
+            }
         });
 
     countries.append("title")
