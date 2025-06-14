@@ -80,8 +80,8 @@ const style_list = ['AOR', 'Aboriginal', 'Abstract', 'Acid', 'Acid House', 'Acid
             'Western Swing', 'Witch House', 'Yemenite Jewish', 'Yoruba', 'Yé-Yé', 'Zamba', 'Zarzuela', 'Zemer Ivri', 'Zhongguo Feng', 'Zouk', 
             'Zydeco', 'Éntekhno']
 
-// Create right selection menu
-let rightt_col = document.getElementById("right_col");
+// Create right genre selection menu
+let right_col = document.getElementById("right_col");
 for (let i = 0; i < genre_list.length; i++) {
     let genre_button = document.createElement("button");
     genre_button.onclick = function () {
@@ -90,3 +90,11 @@ for (let i = 0; i < genre_list.length; i++) {
     genre_button.textContent = genre_list[i];
     right_col.appendChild(genre_button);
 }
+
+// Create reset button
+let reset_button = document.createElement("button");
+reset_button.onclick = function () {
+    reset_carto();
+}
+reset_button.textContent = "RESET";
+right_col.appendChild(reset_button);
