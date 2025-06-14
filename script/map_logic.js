@@ -86,7 +86,7 @@ d3.json("public/globe1.json", function (data) {
         });
 });
 
-function do_update(g=11) {
+export function do_update(g=11) {
     setTimeout(function () {
         // this sets the value to use for scaling, per country. Uses square root scaling
         carto.value(function (d) {
@@ -112,7 +112,7 @@ function do_update(g=11) {
             .attr("d", carto.path);
     }, 10);
 }
-function reset_carto() {
+export function reset_carto() {
     // Recreate the original features using the initial projection
     var path = d3.geo.path().projection(proj);
     var features = carto.features(topology, geometries);

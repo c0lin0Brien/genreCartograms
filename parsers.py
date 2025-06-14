@@ -36,7 +36,7 @@ def parser_two():
 # Creates csv file of style counts of countries
 def parser_three():
     debug_string = ""
-    for curr_country in range(3):
+    for curr_country in range(1):
         cur.execute(f"SELECT id FROM release WHERE country='{country_list[curr_country]}';")
         ids = cur.fetchall()
         for i in ids:
