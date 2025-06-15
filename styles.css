@@ -50,6 +50,7 @@ body {
 }
 #right_col {
     margin-left: 200px;
+    overflow-y: auto;
 }
 path.country {
     stroke: #888;
