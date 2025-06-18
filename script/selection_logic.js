@@ -1,67 +1,62 @@
 // Importing functions from map_logic
-import {do_update, reset_carto} from './map_logic.js';
+import {doUpdate, resetCarto} from './map_logic.js';
 // Importing genre + style lists
-import {genre_list, style_list, matchedList} from './lists.js';
+import {genreList, styleList, matchedList} from './lists.js';
 
 // Create genre selection menu
-const genre_section = document.getElementById("genre_buttons");
-for (let i = 0; i < genre_list.length; i++) {
+const genreSection = document.getElementById("genre_buttons");
+for (let i = 0; i < genreList.length; i++) {
 
-    let genre_name = genre_list[i];
+    let genreName = genreList[i];
 
     // Create each genre dropdown
-    let genre_dropdown = document.createElement("div");
-    genre_dropdown.id = `${genre_name}_dropdown`;
-    genre_dropdown.class = "genre_dropdown";
+    let genreDropdown = document.createElement("div");
+    genreDropdown.id = `${genreName}_dropdown`;
+    genreDropdown.class = "genre_dropdown";
 
     // Create each genre button
-    let genre_button = document.createElement("button");
-    genre_button.id = genre_name;
-    genre_button.class = "genre_button";
-    genre_button.onclick = function () {
-        do_update(i, false);
+    let genreButton = document.createElement("button");
+    genreButton.id = genreName;
+    genreButton.class = "genre_button";
+    genreButton.onclick = function () {
+        doUpdate(i, false);
     }
-    genre_button.textContent = genre_name;
-    genre_section.appendChild(genre_dropdown);
-    genre_dropdown.appendChild(genre_button);
+    genreButton.textContent = genreName;
+    genreSection.appendChild(genreDropdown);
+    genreDropdown.appendChild(genreButton);
 
     // Create container for respective styles to go into
-    let genre_styles = document.createElement("div");
-    genre_styles.id = `${genre_name}_styles`;
-    genre_styles.class = "styles_container";
-    genre_button.after(genre_styles);
+    let genreStyles = document.createElement("div");
+    genreStyles.id = `${genreName}_styles`;
+    genreStyles.class = "styles_container";
+    genreButton.after(genreStyles);
 }
 
-let style_button_map = new Map();
+let styleButtonMap = new Map();
 
 // Create style selection menu
-const style_section = document.getElementById("style_buttons");
-for (let i = 0; i < style_list.length; i++) {
-    let styleName = `${style_list[i]}`
-    let style_button = document.createElement("button");
-    style_button.onclick = function () {
-        do_update(i, true);
+for (let i = 0; i < styleList.length; i++) {
+    let styleName = `${styleList[i]}`
+    let styleButton = document.createElement("button");
+    styleButton.onclick = function () {
+        doUpdate(i, true);
     }
-    style_button.id = `${styleName}`;
-    style_button.class = "style_button";
-    style_button_map.set(style_button.id, style_button);
-    // Finish implementing this. You want to create array of style buttons and then go through it to assign them to each genre drop down, which
-    // is also something you have to make. I'm tired rn.
-    style_button.textContent = styleName;
-    // console.log(`${style_list[i]} button appended`);
-    // style_section.appendChild(style_button);
+    styleButton.id = `${styleName}`;
+    styleButton.class = "style_button";
+    styleButtonMap.set(styleButton.id, styleButton);
+    styleButton.textContent = styleName;
 }
 
 // Go through and assign each style to its respective genre
 for (let i = 0; i < matchedList.length; i++) {
     // Find container to drop style buttons in
-    let target = document.getElementById(`${genre_list[i]}_styles`);
+    let target = document.getElementById(`${genreList[i]}_styles`);
     if (!target) {
         console.log(`Couldn't find anything for ${genre}`)
     }
     for (let style of matchedList[i]) {
         // Get each style from Map and append it to genre dropdown
-        let currStyleButton = style_button_map.get(style);
+        let currStyleButton = styleButtonMap.get(style);
         if (currStyleButton != null) {
             target.appendChild(currStyleButton);
         } else {
@@ -70,9 +65,9 @@ for (let i = 0; i < matchedList.length; i++) {
     }
 }
 // Create reset button
-let reset_button = document.createElement("button");
-reset_button.onclick = function () {
-    reset_carto();
+let resetButton = document.createElement("button");
+resetButton.onclick = function () {
+    resetCarto();
 }
-reset_button.textContent = "RESET";
-right_col.appendChild(reset_button);
+resetButton.textContent = "RESET";
+right_col.appendChild(resetButton);

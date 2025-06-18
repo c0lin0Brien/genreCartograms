@@ -1,10 +1,10 @@
 // Genre List
-export const genre_list = ['Blues', 'Brass & Military', "Children's", 'Classical', 'Electronic',
+export const genreList = ['Blues', 'Brass & Military', "Children's", 'Classical', 'Electronic',
               'Folk, World, & Country', 'Funk / Soul', 'Hip Hop', 'Jazz', 'Latin',
               'Non-Music', 'Pop', 'Reggae', 'Rock', 'Stage & Screen'];
 
 // Style list
-export const style_list = ['AOR', 'Aboriginal', 'Abstract', 'Acid', 'Acid House', 'Acid Jazz', 'Acid Rock', 'Acoustic', 'African', 'Afro-Cuban',
+export const styleList = ['AOR', 'Aboriginal', 'Abstract', 'Acid', 'Acid House', 'Acid Jazz', 'Acid Rock', 'Acoustic', 'African', 'Afro-Cuban',
             'Afro-Cuban Jazz', 'Afrobeat', 'Aguinaldo', 'Alt-Pop', 'Alternative Metal', 'Alternative Rock', 'Amapiano', 'Ambient', 
             'Ambient House', 'Anarcho-Punk', 'Anatolian Rock', 'Andalusian Classical', 'Andean Music', 'Anison', 'Antifolk', 'Appalachian Music', 
             'Arabic Pop', 'Arena Rock', 'Art Rock', 'Atmospheric Black Metal', 'Audiobook', 'Avant-garde Jazz', 'Avantgarde', 'Axé', 'Azonto', 
