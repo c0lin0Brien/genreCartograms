@@ -40,9 +40,11 @@ button {
 /* Map stuff */
 #map-container {
     height: 500px;
-    
+    margin-left: 200px;
+    margin-right: 500px;
     position: relative;
-    margin: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 #map {
     overflow: visible;
@@ -66,15 +68,11 @@ path.country:hover {
     border-color: black;
     flex: 1;
 }
-#left_col {
-    margin-right: 200px;
-}
 #mid_col {
     flex: 0;
     padding-top: 20px;
 }
 #right_col {
-    margin-left: 200px;
     overflow-y: auto;
 }
 #right_col::-webkit-scrollbar {
@@ -85,6 +83,9 @@ path.country:hover {
     border-style: solid;
     border-color: black;
 }
+.style_button {
+    padding: 10px 27px;
+}
 .styles_container {
     display: none;
 }
@@ -92,4 +93,11 @@ path.country:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+/* Settings */
+#settings {
+    border-style: solid;
+    border-width: 2px;
+    margin-top: 440px;
+    position: absolute;
 }

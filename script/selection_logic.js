@@ -66,7 +66,7 @@ for (let i = 0; i < genreList.length; i++) {
 
 let styleButtonMap = new Map();
 
-// Create style selection menu
+// Create style buttons
 for (let i = 0; i < styleList.length; i++) {
     let styleName = `${styleList[i]}`
     let styleButton = document.createElement("button");
