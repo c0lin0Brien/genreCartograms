@@ -26,6 +26,7 @@ button {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin: 4px;
 }
 #title {
     color:#888;
@@ -76,4 +77,19 @@ path.country:hover {
     margin-left: 200px;
     overflow-y: auto;
 }
-
+#right_col::-webkit-scrollbar {
+  display: none;
+}
+/* Style containers/dropdowns */
+.genre_dropdown {
+    border-style: solid;
+    border-color: black;
+}
+.styles_container {
+    display: none;
+}
+.dropdown_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -12,24 +12,56 @@ for (let i = 0; i < genreList.length; i++) {
     // Create each genre dropdown
     let genreDropdown = document.createElement("div");
     genreDropdown.id = `${genreName}_dropdown`;
-    genreDropdown.class = "genre_dropdown";
+    // Apply extra border to top
+    if (i == 0) {
+        genreDropdown.style.borderTopWidth = "4px";
+    } else if (i == genreList.length - 1) {
+        genreDropdown.style.borderBottomWidth = "4px";
+    }
+    genreDropdown.classList.add("genre_dropdown");
+
+    // Create header container for genre button and drop button
+    let dropdownHeader = document.createElement("div");
+    dropdownHeader.classList.add("dropdown_header")
+    dropdownHeader.id = `${genreName}_dropdown_header`;
+
 
     // Create each genre button
     let genreButton = document.createElement("button");
     genreButton.id = genreName;
-    genreButton.class = "genre_button";
+    genreButton.classList.add("genre_button");
     genreButton.onclick = function () {
         doUpdate(i, false);
     }
     genreButton.textContent = genreName;
     genreSection.appendChild(genreDropdown);
-    genreDropdown.appendChild(genreButton);
+    genreDropdown.appendChild(dropdownHeader)
+    dropdownHeader.appendChild(genreButton);
+
+    // Add dropdown icon
+    let dropIcon = document.createElement("i");
+    dropIcon.classList.add("fa", "fa-caret-down", "fa-2x");
+    dropIcon.style.marginRight = "12px"
+    dropIcon.style.marginTop = "12px"
+    dropdownHeader.appendChild(dropIcon);
 
     // Create container for respective styles to go into
     let genreStyles = document.createElement("div");
     genreStyles.id = `${genreName}_styles`;
-    genreStyles.class = "styles_container";
-    genreButton.after(genreStyles);
+    genreStyles.classList.add("styles_container");
+    genreDropdown.append(genreStyles);
+
+    // Assign dropdown behavior to style containers
+    dropIcon.addEventListener("click", function () {
+        console.log(`Clicked ${genreName} dropdown icon`);
+        if (genreStyles.style.display === "block") {
+            console.log(`Display: ${genreStyles.style.display}`);
+            genreStyles.style.display = "none";
+        } else {
+            console.log(`Display: ${genreStyles.style.display}`);
+            genreStyles.style.display = "block";
+        }
+    });
 }
 
 let styleButtonMap = new Map();
@@ -42,7 +74,7 @@ for (let i = 0; i < styleList.length; i++) {
         doUpdate(i, true);
     }
     styleButton.id = `${styleName}`;
-    styleButton.class = "style_button";
+    styleButton.classList.add("style_button");
     styleButtonMap.set(styleButton.id, styleButton);
     styleButton.textContent = styleName;
 }
