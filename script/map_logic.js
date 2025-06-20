@@ -18,6 +18,7 @@ var styleData = d3.map();
 
 var carto = d3.cartogram()
     .projection(proj)
+    .iterations(10)
     .properties(function (d) {
         // This adds the "properties" properties to the geometries
         return d.properties;
@@ -59,10 +60,10 @@ d3.json("public/globe1.json", function (data) {
         .attr("id", function (d) {
             // Fix to stop countries with spaces from tweaking
             var countryName = d.properties.name;
-            if (countryName.includes(" ") || countryName.includes(".")) {
+            if (countryName.includes(" ") || countryName.includes(".") || countryName.includes("'")) {
                 var newID = "";
                 for (const char of countryName) {
-                    if (char == " " || char == ".") {
+                    if (char == " " || char == "." || char == "'") {
                         newID += "_"
                     } else {
                         newID += char;
