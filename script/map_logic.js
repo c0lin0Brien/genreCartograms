@@ -59,10 +59,10 @@ d3.json("public/globe1.json", function (data) {
         .attr("id", function (d) {
             // Fix to stop countries with spaces from tweaking
             var countryName = d.properties.name;
-            if (countryName.includes(" ")) {
+            if (countryName.includes(" ") || countryName.includes(".")) {
                 var newID = "";
                 for (const char of countryName) {
-                    if (char == " ") {
+                    if (char == " " || char == ".") {
                         newID += "_"
                     } else {
                         newID += char;
