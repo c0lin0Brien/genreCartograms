@@ -64,12 +64,9 @@ for (let i = 0; i < genreList.length; i++) {
 
     // Assign dropdown behavior to style containers
     dropIcon.addEventListener("click", function () {
-        console.log(`Clicked ${genreName} dropdown icon`);
         if (genreStyles.style.display === "block") {
-            console.log(`Display: ${genreStyles.style.display}`);
             genreStyles.style.display = "none";
         } else {
-            console.log(`Display: ${genreStyles.style.display}`);
             genreStyles.style.display = "block";
         }
     });
@@ -83,7 +80,20 @@ for (let i = 0; i < styleList.length; i++) {
     let styleButton = document.createElement("button");
     styleButton.onclick = function () {
         doUpdate(i, true);
-        styleButton.classList.toggle("active");
+        if (lastButton == null) {
+            console.log("lastButton == null")
+            styleButton.classList.add("active");
+            lastButton = styleButton;
+            console.log(`lastButton is now ${lastButton.textContent}`);
+        } else {
+            if (lastButton != styleButton) {
+                console.log(`lastButton was ${lastButton.textContent}`);
+                lastButton.classList.toggle("active");
+                styleButton.classList.toggle('active');
+                lastButton = styleButton;
+                console.log(`lastButton is now ${lastButton.textContent}`);
+            }
+        }
     }
     styleButton.id = `${styleName}`;
     styleButton.classList.add("style_button");
