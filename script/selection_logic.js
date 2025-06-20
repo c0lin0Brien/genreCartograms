@@ -4,6 +4,7 @@ import {doUpdate, resetCarto} from './map_logic.js';
 import {genreList, styleList, matchedList} from './lists.js';
 
 // Create genre selection menu
+let lastButton;
 const genreSection = document.getElementById("genre_buttons");
 for (let i = 0; i < genreList.length; i++) {
 
@@ -32,6 +33,16 @@ for (let i = 0; i < genreList.length; i++) {
     genreButton.classList.add("genre_button");
     genreButton.onclick = function () {
         doUpdate(i, false);
+        if (lastButton == null) {
+            genreButton.classList.add("active");
+            lastButton = genreButton;
+        } else {
+            if (lastButton != genreButton) {
+                lastButton.classList.toggle("active");
+                genreButton.classList.toggle('active');
+                lastButton = genreButton;
+            }
+        }
     }
     genreButton.textContent = genreName;
     genreSection.appendChild(genreDropdown);
@@ -72,6 +83,7 @@ for (let i = 0; i < styleList.length; i++) {
     let styleButton = document.createElement("button");
     styleButton.onclick = function () {
         doUpdate(i, true);
+        styleButton.classList.toggle("active");
     }
     styleButton.id = `${styleName}`;
     styleButton.classList.add("style_button");
@@ -92,14 +104,16 @@ for (let i = 0; i < matchedList.length; i++) {
         if (currStyleButton != null) {
             target.appendChild(currStyleButton);
         } else {
-            console.log(`Cannot find button for ${style}`);
         }
     }
 }
 // Create reset button
 let resetButton = document.createElement("button");
 resetButton.onclick = function () {
+    lastButton.classList.toggle("active");
+    lastButton = null;
     resetCarto();
 }
 resetButton.textContent = "RESET";
 right_col.appendChild(resetButton);
+
