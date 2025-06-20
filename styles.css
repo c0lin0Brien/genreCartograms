@@ -96,10 +96,14 @@ path.country:hover {
 #right_col::-webkit-scrollbar {
   display: none;
 }
-/* Style containers/dropdowns */
+/* genre/style containers/dropdowns */
+#genre_buttons {
+    margin: 0;
+}
 .genre_dropdown {
     border-style: solid;
     border-color: black;
+    font-size: 16px;
 }
 .genre_button.active {
     color: black;

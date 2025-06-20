@@ -16,6 +16,7 @@ for (let i = 0; i < genreList.length; i++) {
     // Apply extra border to top
     if (i == 0) {
         genreDropdown.style.borderTopWidth = "4px";
+    // Apply extra border to bottom
     } else if (i == genreList.length - 1) {
         genreDropdown.style.borderBottomWidth = "4px";
     }
