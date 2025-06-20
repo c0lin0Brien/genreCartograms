@@ -78,9 +78,9 @@ d3.json("public/globe1.json", function (data) {
         // Logic for selecting countries via click
         .on("click", function(d) {
             d3.select(`#${currSelected}`).classed("selected", false);
-            
-            if (currSelected != d.properties.name) {
-                currSelected = d.properties.name
+
+            if (currSelected != this.id) {
+                currSelected = this.id
                 d3.select("#title").text(d.properties.name);
                 d3.select(this).classed("selected", true);
                 currSelected = this.id;
