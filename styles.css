@@ -53,6 +53,13 @@ h3 {
     padding-bottom: 30px;
     font-weight: bold;
 }
+.reset:active {
+    color: black;
+    background-color: white;
+    border-style: solid;
+    border-width: 4px;
+    padding: 11px 28px;
+}
 /* Map stuff */
 #map-container {
     height: 500px;

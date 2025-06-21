@@ -18,7 +18,7 @@ var styleData = d3.map();
 
 var carto = d3.cartogram()
     .projection(proj)
-    .iterations(10)
+    .iterations(11)
     .properties(function (d) {
         // This adds the "properties" properties to the geometries
         return d.properties;

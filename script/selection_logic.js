@@ -120,6 +120,7 @@ for (let i = 0; i < matchedList.length; i++) {
 }
 // Create reset button
 let resetButton = document.createElement("button");
+resetButton.classList.add("reset");
 resetButton.onclick = function () {
     lastButton.classList.toggle("active");
     lastButton = null;
