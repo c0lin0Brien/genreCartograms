@@ -2,6 +2,13 @@
 import {doUpdate, resetCarto} from './map_logic.js';
 // Importing genre + style lists
 import {genreList, styleList, matchedList} from './lists.js';
+// Loading json
+let genreBlurbs = {}
+fetch('public/genre_blurbs.json')
+  .then(response => response.json())
+  .then(data => {
+    genreBlurbs = data;
+  });
 
 // Create genre selection menu
 let lastButton;
@@ -34,6 +41,7 @@ for (let i = 0; i < genreList.length; i++) {
     genreButton.classList.add("genre_button");
     genreButton.onclick = function () {
         doUpdate(i, false);
+        displayGenreBlurb(genreName);
         if (lastButton == null) {
             genreButton.classList.add("active");
             lastButton = genreButton;
@@ -81,6 +89,7 @@ for (let i = 0; i < styleList.length; i++) {
     let styleButton = document.createElement("button");
     styleButton.onclick = function () {
         doUpdate(i, true);
+        displayGenreBlurb(styleName);
         if (lastButton == null) {
             console.log("lastButton == null")
             styleButton.classList.add("active");
@@ -125,7 +134,15 @@ resetButton.onclick = function () {
     lastButton.classList.toggle("active");
     lastButton = null;
     resetCarto();
+    genreDescription.textContent = "";
 }
 resetButton.textContent = "RESET";
 right_col.appendChild(resetButton);
 
+// Display genre description
+const genreDescription = document.getElementById("genre-description");
+function displayGenreBlurb(genreName) {
+    let blurb = genreBlurbs[genreName].description;
+    const formatted = blurb.replace(/\n/g, "<br>");
+    genreDescription.innerHTML = formatted;
+}

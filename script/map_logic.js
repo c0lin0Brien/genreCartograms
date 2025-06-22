@@ -6,8 +6,8 @@ var countries = map.append("g")
     .selectAll("path");
 
 var proj = d3.geo.mercator()
-    .scale(1000)
-    .translate([300, 450])
+    .scale(600)
+    .translate([200, 225])
 
 var topology,
     geometries,

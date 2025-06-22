@@ -22,7 +22,7 @@ button {
     color: white;
     background-color: black;
     border: none;
-    padding: 15px 32px;
+    padding: 10px 21px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -30,13 +30,18 @@ button {
     margin: 4px;
 }
 h1 {
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 64px;
+    line-height: 60px;
 }
 h2 {
     font-size: 48px;
 }
 h3 {
+    margin-top: 0px;
     font-size: 32px;
+    margin-bottom: 10px;
 }
 /* Title stuff */
 #title-container {
@@ -63,11 +68,13 @@ h3 {
 /* Map stuff */
 #map-container {
     height: 500px;
-    margin-left: 200px;
-    margin-right: 500px;
-    position: relative;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    position: absolute;
+    border: solid;
+    border-width: 2px;
+    padding-left: 100px;
+    padding-right: 200px;
+    padding-top: 50px;
+    padding-bottom: 25px;
 }
 #map {
     overflow: visible;
@@ -86,14 +93,19 @@ path.country:hover {
 }
 /* Columns */
 .side_col {
-    border-style: solid;
+    /* border-style: solid;
     border-width: 2px;
-    border-color: black;
+    border-color: black; */
     flex: 1;
 }
 #left_col {
     color: black;
     padding-left: 5px;
+}
+#genre-description {
+    padding-left: 5px;
+    padding-right: 10px;
+    font-size: 14px;
 }
 #mid_col {
     flex: 0;
@@ -101,6 +113,7 @@ path.country:hover {
 }
 #right_col {
     overflow-y: auto;
+    margin-left: 10px;
 }
 #right_col::-webkit-scrollbar {
   display: none;
@@ -108,31 +121,34 @@ path.country:hover {
 /* genre/style containers/dropdowns */
 #genre_buttons {
     margin: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 .genre_dropdown {
-    border-style: solid;
-    border-color: black;
-    font-size: 16px;
+    /* border-style: solid;
+    border-color: black; */
+    font-size: 12px;
 }
 .genre_button.active {
     color: black;
     background-color: white;
     border-style: solid;
     border-width: 4px;
-    padding: 11px 28px;
+    padding: 6px 17px;
 }
 .style_button {
-    padding: 10px 27px;
+    padding: 7px 9px;
 }
 .style_button.active {
     color: black;
     background-color: white;
     border-style: solid;
     border-width: 4px;
-    padding: 6px 23px;
+    padding: 3px 5px;
 }
 .styles_container {
     display: none;
+    padding-left: 10px;
 }
 .dropdown_header {
     display: flex;
@@ -143,4 +159,5 @@ path.country:hover {
 #settings {
     margin-top: 440px;
     position: absolute;
+    display: none;
 }
