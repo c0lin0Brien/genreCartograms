@@ -7,11 +7,14 @@
     <script src="lib/d3.v2.min.js"></script>
     <script src="lib/topojson.js"></script>
     <script src="lib/cartogram.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
      <script type="module" src="script/map_logic.js"></script>
     <script type="module" src="script/selection_logic.js"></script>
+    <script type="module" src="script/pie-charts.js"></script>
 </head>
 
 <body>
@@ -19,6 +22,8 @@
         <h1><b>Genre Cartograms</b></h1>
         <h3 style="padding-left: 5px;">Colin O'Brien</h3>
         <div id="genre-description"></div>
+        <canvas id="genre-insights" width="200" height="200"></canvas>
+        <canvas id="country-insights" width="200" height="200"></canvas>
     </div>
     <div id="mid_col">
         <div id="title-container">

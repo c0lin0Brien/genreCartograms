@@ -1,7 +1,7 @@
-// Importing functions from map_logic
+
 import {doUpdate, resetCarto} from './map_logic.js';
-// Importing genre + style lists
 import {genreList, styleList, matchedList} from './lists.js';
+import { generateGenreInsight } from './pie-charts.js';
 // Loading json
 let genreBlurbs = {}
 fetch('public/genre_blurbs.json')
@@ -11,7 +11,7 @@ fetch('public/genre_blurbs.json')
   });
 
 // Create genre selection menu
-let lastButton;
+export let lastButton;
 const genreSection = document.getElementById("genre_buttons");
 for (let i = 0; i < genreList.length; i++) {
 
@@ -42,6 +42,7 @@ for (let i = 0; i < genreList.length; i++) {
     genreButton.onclick = function () {
         doUpdate(i, false);
         displayGenreBlurb(genreName);
+        generateGenreInsight(genreName);
         if (lastButton == null) {
             genreButton.classList.add("active");
             lastButton = genreButton;

@@ -101,6 +101,12 @@ path.country:hover {
 #left_col {
     color: black;
     padding-left: 5px;
+    padding-right: 5px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+#left_col::-webkit-scrollbar {
+  display: none;
 }
 #genre-description {
     padding-left: 5px;
@@ -161,3 +167,4 @@ path.country:hover {
     position: absolute;
     display: none;
 }
+/* Insights */
