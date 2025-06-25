@@ -1,7 +1,7 @@
 import requests
 import json
 import time
-from countries_genres_styles import genre_list, style_list
+from main.parsers.countries_genres_styles import genre_list, style_list
 
 genre_descriptions = {}
 

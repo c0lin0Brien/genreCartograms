@@ -2,7 +2,7 @@ import pandas as pd
 import psycopg2
 import numpy as np
 import csv
-from countries_genres_styles import style_list, country_list
+from main.parsers.countries_genres_styles import style_list, country_list
 
 conn = psycopg2.connect(database="discogs",
                       user="postgres",

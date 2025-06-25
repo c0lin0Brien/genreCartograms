@@ -1,4 +1,4 @@
-from countries_genres_styles import style_list, matched, genre_list
+from main.parsers.countries_genres_styles import style_list, matched, genre_list
 
 # Double checking whether all styles are included in matched
 styles_count = 0
