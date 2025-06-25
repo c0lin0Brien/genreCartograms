@@ -199,7 +199,6 @@ function getDisparityFunc(vals) {
         }
     }
 }
-// TODO: FIGURE THIS OUT
 function collectValues(i = 11, style = false) {
     let values = [];
     // Loop through all country names in the relevant data map

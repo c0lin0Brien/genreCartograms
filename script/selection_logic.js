@@ -42,7 +42,7 @@ for (let i = 0; i < genreList.length; i++) {
     genreButton.onclick = function () {
         doUpdate(i, false);
         displayGenreBlurb(genreName);
-        generateGenreInsight(genreName);
+        // generateGenreInsight(genreName);
         if (lastButton == null) {
             genreButton.classList.add("active");
             lastButton = genreButton;
@@ -146,4 +146,9 @@ function displayGenreBlurb(genreName) {
     let blurb = genreBlurbs[genreName].description;
     const formatted = blurb.replace(/\n/g, "<br>");
     genreDescription.innerHTML = formatted;
+}
+
+// Display Spotify playlists
+function getPlaylists(genreName) {
+    
 }
