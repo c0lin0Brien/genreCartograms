@@ -119,7 +119,6 @@ export function doUpdate(i=11, style) {
             }
             let retVal = dFunc(val);
             // TODO: Finish this and find a way to store the country name of the max and minimum
-            // console.log(`${countryName}: ${retVal}`);
             return retVal;
         });
         
@@ -134,7 +133,6 @@ export function doUpdate(i=11, style) {
             .text(function (d) {
                 return d.properties.name;
             });
-        console.log(`Min: ${min}, Max: ${max}`);
         countries.transition()
             .duration(750)
             .attr("d", carto.path);
@@ -175,25 +173,20 @@ function getDisparityFunc(vals) {
     let max = 0;
     let min = Infinity;
     vals.forEach(function(val) {
-        // console.log(`Going through val ${val}...`);
         max = maxCheck(max, val);
         min = minCheck(min, val);
     })
     let dif = max - min;
-    console.log(`Your stupid function thinks that the difference is ${dif}`);
     // Determine what to do with data 
     if (dif < 1000) {
-        console.log("LOW");
         return function(v) {
             return (v + 1);
         };
     } else if (dif < 10000) {
-        console.log("MED");
         return function(v) {
             return (Math.sqrt(v + 1));
         };
     } else {
-        console.log("HIGH");
         return function(v) {
             return (Math.sqrt(v) + 10)
         }
@@ -208,10 +201,7 @@ function collectValues(i = 11, style = false) {
         let val = valueArray ? parseInt(valueArray[i]) : NaN;
         // Optionally check for valid numbers
         if (!isNaN(val)) {
-            console.log(`Pushing val ${val}...`);
             values.push(val);
-        } else {
-            console.warn(`Skipping ${countryName}: value is ${valueArray ? valueArray[i] : 'undefined'}`);
         }
     });
     return values;

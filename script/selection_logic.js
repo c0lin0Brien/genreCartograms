@@ -92,17 +92,13 @@ for (let i = 0; i < styleList.length; i++) {
         doUpdate(i, true);
         displayGenreBlurb(styleName);
         if (lastButton == null) {
-            console.log("lastButton == null")
             styleButton.classList.add("active");
             lastButton = styleButton;
-            console.log(`lastButton is now ${lastButton.textContent}`);
         } else {
             if (lastButton != styleButton) {
-                console.log(`lastButton was ${lastButton.textContent}`);
                 lastButton.classList.toggle("active");
                 styleButton.classList.toggle('active');
                 lastButton = styleButton;
-                console.log(`lastButton is now ${lastButton.textContent}`);
             }
         }
     }
@@ -116,9 +112,6 @@ for (let i = 0; i < styleList.length; i++) {
 for (let i = 0; i < matchedList.length; i++) {
     // Find container to drop style buttons in
     let target = document.getElementById(`${genreList[i]}_styles`);
-    if (!target) {
-        console.log(`Couldn't find anything for ${genre}`)
-    }
     for (let style of matchedList[i]) {
         // Get each style from Map and append it to genre dropdown
         let currStyleButton = styleButtonMap.get(style);
