@@ -39,7 +39,7 @@ h2 {
     font-size: 48px;
 }
 h3 {
-    margin-top: 0px;
+    margin-top: 12px;
     font-size: 32px;
     margin-bottom: 10px;
 }
@@ -92,6 +92,17 @@ path.country:hover {
     stroke-width: 1px;
 }
 /* Columns */
+/* Desktop */
+#content-container {
+    display: flex;
+    flex-direction: row;
+}
+/* Mobile */
+@media only screen and (max-width: 768px) {
+    #content-container {
+        flex-direction: column-reverse;
+    }
+}
 .side_col {
     /* border-style: solid;
     border-width: 2px;
@@ -104,6 +115,7 @@ path.country:hover {
     padding-right: 5px;
     overflow-y: auto;
     overflow-x: auto;
+    max-width: 30vw;
 }
 #left_col::-webkit-scrollbar {
   display: none;
