@@ -132,17 +132,34 @@ path.country:hover {
     #content-container {
         display: flex;
         flex-direction: column-reverse;
+        width: 100%;
     }
     #left_col {
         max-width: 100vw;
+        flex: 1;
+    }
+    #mid_col {
+        width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px;
     }
     #map-container {
         position: relative;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        height: 400px;
+        width: 90vw;
+        height: 50vh;
+        min-height: 300px;
+        padding: 10px;
+        margin: 0 auto;
+        border: solid;
+        border-width: 2px;
+    }
+    #map {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
     }
 }
 .side_col {
