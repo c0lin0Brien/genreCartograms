@@ -4,6 +4,7 @@
 <head>
     <title>Genre To Scale</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="lib/d3.v2.min.js"></script>
     <script src="lib/topojson.js"></script>
     <script src="lib/cartogram.js"></script>
@@ -18,10 +19,16 @@
 </head>
 
 <body>
+    <div id="mobile-title-container">
+        <h1><b>Genre Cartograms</b></h1>
+        <h3>By Colin O'Brien</h3>
+    </div>
     <div id="content-container">
         <div id="left_col" class="side_col">
-            <h1><b>Genre Cartograms</b></h1>
-            <h3 style="padding-left: 5px;">By Colin O'Brien</h3>
+            <div id="desktop-title-container">
+                <h1><b>Genre Cartograms</b></h1>
+                <h3 style="padding-left: 5px;">By Colin O'Brien</h3>
+            </div>
             <div id="genre-description"></div>
             <div id="playlist-container"></div>
         </div>
