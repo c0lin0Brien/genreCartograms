@@ -45,12 +45,22 @@ h3 {
 #mobile-title-container {
     display: none;
     text-align: center;
-    padding: 20px 10px;
+    padding: 2vh;
     background-color: white;
     z-index: 1000;
 }
 #desktop-title-container {
     display: block;
+}
+#desktop-title-container h1 {
+    font-size: 5vw;
+    line-height: 1;
+    margin-bottom: 2vh;
+}
+#desktop-title-container h3 {
+    font-size: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 /* Title stuff */
 #title-container {
@@ -117,8 +127,8 @@ path.country:hover {
         font-size: 24px;
         text-align: center;
         cursor: pointer;
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding-top: 0px !important;
+        padding-bottom: 1vh !important;
         font-weight: bold;
     }
     #mobile-title-container {
@@ -134,14 +144,14 @@ path.country:hover {
         box-sizing: border-box;
     }
     #mobile-title-container h1 {
-        font-size: 36px;
-        line-height: 40px;
-        margin-bottom: 10px;
+        font-size: 8vw !important;
+        line-height: 1.1 !important;
+        margin-bottom: 2vh;
     }
     #mobile-title-container h3 {
-        font-size: 18px;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        font-size: 4vw !important;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
     }
     #desktop-title-container {
         display: none;
@@ -159,7 +169,7 @@ path.country:hover {
         display: block;
         flex-direction: column;
         align-items: center;
-        padding-top: 10px;
+        padding-top: 0px !important;
     }
     #map-container {
         position: relative;
@@ -179,6 +189,8 @@ path.country:hover {
     #genre-description {
         width: 100%;
         box-sizing: border-box;
+        padding-top: 1vh !important;
+        padding-left: 7.5px !important;
     }
 }
 .side_col {
@@ -201,7 +213,6 @@ path.country:hover {
 }
 #genre-description {
     padding-left: 5px;
-    padding-right: 10px;
     font-size: 14px;
 }
 #mid_col {
