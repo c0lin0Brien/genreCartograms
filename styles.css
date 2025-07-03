@@ -152,13 +152,11 @@ path.country:hover {
         width: 100%;
     }
     #left_col {
-        max-width: 100vw;
-        flex: 1;
+        max-width: 100vw !important;
     }
     #mid_col {
         width: 100%;
-        flex: 1;
-        display: flex;
+        display: block;
         flex-direction: column;
         align-items: center;
         padding-top: 10px;
@@ -168,7 +166,7 @@ path.country:hover {
         width: 90vw;
         height: 50vh;
         min-height: 300px;
-        padding: 10px;
+        padding: 0 10px 0 10px;
         margin: 0 auto;
         border: solid;
         border-width: 2px;
@@ -177,6 +175,10 @@ path.country:hover {
         width: 100%;
         height: 100%;
         overflow: visible;
+    }
+    #genre-description {
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 .side_col {
@@ -192,6 +194,7 @@ path.country:hover {
     overflow-y: auto;
     overflow-x: auto;
     max-width: 30vw;
+    margin-right: 0;
 }
 #left_col::-webkit-scrollbar {
   display: none;
