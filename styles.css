@@ -174,8 +174,9 @@ path.country:hover {
     #map-container {
         position: relative;
         width: 90vw;
-        height: 50vh;
+        height: 350px;
         min-height: 300px;
+        max-height: 90vw;
         padding: 0 10px 0 10px;
         margin: 0 auto;
         border: solid;
