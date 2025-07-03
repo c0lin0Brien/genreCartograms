@@ -1,4 +1,3 @@
-
 import {doUpdate, resetCarto} from './map_logic.js';
 import {genreList, styleList, matchedList} from './lists.js';
 import { generateGenreInsight } from './pie-charts.js';
