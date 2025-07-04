@@ -98,6 +98,20 @@ h3 {
 #map {
     overflow: visible;
 }
+
+/* Prevent map movement during scroll on mobile */
+@media only screen and (max-width: 768px) {
+    #map {
+        will-change: auto;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    
+    #map.scrolling {
+        pointer-events: none;
+        transition: none !important;
+    }
+}
 path.country {
     stroke: #888;
     stroke-width: .5;

@@ -38,7 +38,15 @@ if (isMobile) {
 
 var topology,
     geometries,
-    cartoFeatures;
+    cartoFeatures,
+    currentCartogramState = null, // Track current cartogram state (index and style)
+    resizeTimeout = null, // For debouncing resize events
+    lastResizeDimensions = { width: 0, height: 0 }, // Track last resize dimensions
+    isScrolling = false, // Track if user is currently scrolling
+    scrollTimeout = null, // For detecting when scrolling stops
+    mapPosition = { x: 0, y: 0 }, // Track map position to keep it stationary
+    isMapLocked = false, // Lock map position during scroll
+    originalProjectionValues = { scale: 0, translate: [0, 0] }; // Store original projection values
 
 var genreData = d3.map();
 var styleData = d3.map();
@@ -111,7 +119,7 @@ d3.json("public/globe1.json", function (data) {
     var proj;
     if (isMobile) {
         // Use a simple, reliable approach for D3 v2
-        var scale = Math.min(width, height) * 0.8; // 80% of the smaller dimension
+        var scale = Math.min(width, height) * .9; // 80% of the smaller dimension
         proj = d3.geo.mercator()
             .scale(scale)
             .translate([width / 2, height / 2]);
@@ -119,6 +127,10 @@ d3.json("public/globe1.json", function (data) {
         proj = d3.geo.mercator().scale(600).translate([200, 225]);
     }
     carto.projection(proj);
+    
+    // Store original projection values to prevent changes during scroll
+    originalProjectionValues.scale = proj.scale();
+    originalProjectionValues.translate = proj.translate();
 
     //these 2 below create the map and are based on the topojson implementation
     var features = carto.features(topology, geometries),
@@ -171,12 +183,19 @@ d3.json("public/globe1.json", function (data) {
         .text(function (d) {
             return d.properties.name;
         });
+    
+    // Initialize resize dimensions
+    lastResizeDimensions.width = window.innerWidth;
+    lastResizeDimensions.height = window.innerHeight;
         
     console.log("Map created successfully");
 });
 
 export function doUpdate(i=11, style) {
     setTimeout(function () {
+        // Track current cartogram state
+        currentCartogramState = { index: i, style: style };
+        
         let stats = new Array(5); // min, std dev, median, mean, max
         // this sets the value to use for scaling, per country. Uses square root scaling
         let min = Infinity;
@@ -217,6 +236,9 @@ export function doUpdate(i=11, style) {
     }, 10);
 }
 export function resetCarto() {
+    // Clear current cartogram state
+    currentCartogramState = null;
+    
     // Recreate the original features using the initial projection
     var path = d3.geo.path().projection(proj);
     var features = carto.features(topology, geometries);
@@ -286,10 +308,10 @@ function collectValues(i = 11, style = false) {
 }
 function makeProj(mobile) {
     if (mobile) {
-        // For mobile, use a simpler approach with screen width
-        const scale = screenWidth * 0.4; // 40% of screen width
-        const translateX = screenWidth * 0.45; // 45% of screen width
-        const translateY = screenHeight * 0.3; // 30% of screen height
+        // Use consistent scaling method - same as initial creation
+        const scale = Math.min(screenWidth, screenHeight) * 0.9; // 90% of smaller dimension
+        const translateX = screenWidth * 0.5; // Center horizontally
+        const translateY = screenHeight * 0.5; // Center vertically
         
         var proj = d3.geo.mercator()
             .scale(scale)
@@ -303,31 +325,128 @@ function makeProj(mobile) {
     }
 }
 
+// Track scrolling to prevent resize events during scroll
+window.addEventListener('scroll', function() {
+    if (isMobile) {
+        isScrolling = true;
+        isMapLocked = true; // Lock map position during scroll
+        
+        // Force the projection to stay the same during scroll
+        if (originalProjectionValues && proj) {
+            proj.scale(originalProjectionValues.scale);
+            proj.translate(originalProjectionValues.translate);
+            carto.projection(proj);
+        }
+        
+        // Add CSS class to prevent any map transitions during scroll
+        const mapElement = document.getElementById('map');
+        if (mapElement) {
+            mapElement.classList.add('scrolling');
+            mapElement.style.pointerEvents = 'none'; // Prevent interactions during scroll
+            mapElement.style.transform = 'translateZ(0)'; // Force hardware acceleration
+        }
+        
+        // Clear existing scroll timeout
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        
+        // Set scrolling to false after scrolling stops
+        scrollTimeout = setTimeout(function() {
+            isScrolling = false;
+            // Keep map locked for a bit longer to prevent post-scroll resize events
+            setTimeout(function() {
+                isMapLocked = false;
+                // Re-enable map interactions
+                if (mapElement) {
+                    mapElement.classList.remove('scrolling');
+                    mapElement.style.pointerEvents = 'auto';
+                    mapElement.style.transform = '';
+                }
+            }, 1000); // 1000ms after scrolling stops - longer delay
+        }, 200); // 200ms after last scroll event - longer delay
+    }
+});
+
 // Handle window resize for responsive map scaling
 window.addEventListener('resize', function() {
     if (isMobile && topology && geometries) {
-        // Update screen dimensions
-        const newScreenWidth = window.innerWidth;
-        const newScreenHeight = window.innerHeight;
+        // Completely ignore resize events during scroll or when map is locked
+        if (isScrolling || isMapLocked) {
+            console.log('Resize ignored - scrolling or map locked');
+            return;
+        }
         
-        // Recreate projection with new dimensions
-        proj = makeProj(isMobile);
+        // Clear existing timeout
+        if (resizeTimeout) {
+            clearTimeout(resizeTimeout);
+        }
         
-        // Update cartogram projection
-        carto.projection(proj);
-        
-        // Recreate features with new projection
-        var features = carto.features(topology, geometries);
-        var path = d3.geo.path().projection(proj);
-        
-        // Update the map
-        countries.data(features)
-            .select("title")
-            .text(function (d) {
-                return d.properties.name;
-            });
-        countries.transition()
-            .duration(300)
-            .attr("d", path);
+        // Debounce the resize event with longer delay
+        resizeTimeout = setTimeout(function() {
+            // Double-check that we're still not scrolling
+            if (isScrolling || isMapLocked) {
+                console.log('Resize cancelled - still scrolling or locked');
+                return;
+            }
+            
+            const newScreenWidth = window.innerWidth;
+            const newScreenHeight = window.innerHeight;
+            
+            // Check if the resize is significant enough to warrant an update
+            const widthDiff = Math.abs(newScreenWidth - lastResizeDimensions.width);
+            const heightDiff = Math.abs(newScreenHeight - lastResizeDimensions.height);
+            const significantChange = widthDiff > 100 || heightDiff > 100; // Increased threshold to 100px
+            
+            if (significantChange || lastResizeDimensions.width === 0) {
+                console.log('Processing resize event');
+                // Update last known dimensions
+                lastResizeDimensions.width = newScreenWidth;
+                lastResizeDimensions.height = newScreenHeight;
+                
+                // Recreate projection with new dimensions
+                proj = makeProj(isMobile);
+                
+                // Update cartogram projection
+                carto.projection(proj);
+                
+                // Preserve current cartogram state
+                var features;
+                if (currentCartogramState) {
+                    // If we have a current cartogram state, recreate it with the new projection
+                    let rawVals = collectValues(currentCartogramState.index, currentCartogramState.style);
+                    let dFunc = getDisparityFunc(rawVals);
+                    
+                    carto.value(function (d) {
+                        var countryName = d.properties.name;
+                        if (currentCartogramState.style) {
+                            var val = parseInt(styleData.get(countryName)[currentCartogramState.index]);
+                        } else {
+                            var val = parseInt(genreData.get(countryName)[currentCartogramState.index]);
+                        }
+                        return dFunc(val);
+                    });
+                    
+                    features = carto(topology, geometries).features;
+                } else {
+                    // Otherwise use original features
+                    features = carto.features(topology, geometries);
+                }
+                
+                var path = d3.geo.path().projection(proj);
+                
+                // Update the map
+                countries.data(features)
+                    .select("title")
+                    .text(function (d) {
+                        return d.properties.name;
+                    });
+                countries.transition()
+                    .duration(300)
+                    .attr("d", path);
+            } else {
+                console.log('Resize too small, ignoring');
+            }
+        }, 500); // 500ms debounce delay - longer delay
     }
 });
